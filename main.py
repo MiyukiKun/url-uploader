@@ -117,7 +117,7 @@ async def thumb(event):
 
 @bot.on(events.NewMessage(pattern=("/clearthumb")))
 async def clear_thumb(event):
-    with open("thumb.png", "wb") as f:
+    with open("thumb.png", "w") as f:
         f.write("")
     await event.reply("cleared thumbnail")
 
