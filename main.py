@@ -33,7 +33,7 @@ async def download_function(event):
         x = await event.get_reply_message()
         thumb = await bot.download_media(x.photo)
     except:
-        thumb = None
+        thumb = "thumb.png"
 
     split = event.raw_text[6:]
     reply = await event.reply("Downloading")
@@ -48,7 +48,6 @@ async def download_function(event):
     await Upload(event,reply, name, thumb)
     await reply.delete()
     os.remove(name)
-    os.remove(thumb)
     is_busy = False
 
 async def Upload(event,reply, out, thumbnail):
@@ -89,7 +88,7 @@ async def batch(event):
     try:    
         thumb = await bot.download_media(x.photo)
     except:
-        thumb = None
+        thumb = "thumb.png"
 
     for i in msg:
         reply = await event.reply(f"Downloading")
@@ -104,8 +103,23 @@ async def batch(event):
         await Upload(event,reply, name, thumb)
         os.remove(name)
         await reply.delete()
-    os.remove(thumb)
     is_busy = False
+
+@bot.on(events.NewMessage(pattern="/setthumb"))
+async def thumb(event):
+    x = await event.get_reply_message()
+    thumb = await bot.download_media(x.photo)
+    with open(thumb, "rb") as f:
+        pic = f.read()
+    with open("thumb.png", "wb") as f:
+        f.write(pic)
+    await event.reply("Set as default thumbnail")
+
+@bot.on(events.NewMessage(pattern=("/clearthumb")))
+async def clear_thumb(event):
+    with open("thumb.png", "wb") as f:
+        f.write("")
+    await event.reply("cleared thumbnail")
 
 bot.start()
 
