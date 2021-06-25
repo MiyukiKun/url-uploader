@@ -105,7 +105,7 @@ async def batch(event):
         await reply.delete()
     is_busy = False
 
-@bot.on(events.NewMessage(pattern="/setthumb"))
+@bot.on(events.NewMessage(pattern=("/setthumb")))
 async def thumb(event):
     x = await event.get_reply_message()
     thumb = await bot.download_media(x.photo)
