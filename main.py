@@ -42,7 +42,7 @@ async def download_function(event):
 
         split = event.raw_text[8:]
         reply = await event.reply("Downloading")
-        for_name = split.split("|")
+        for_name = split.split("/rename")
         url = for_name[0]
         url = url.replace(' ', '')
         try:
